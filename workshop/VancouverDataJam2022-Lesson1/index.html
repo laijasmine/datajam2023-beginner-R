@@ -1,0 +1,220 @@
+---
+title: "VDJ 2022: 1. What is R?"
+subtitle: "Best practices"
+author: "Yuka Takemon"
+date: "2022-09-18"
+show_post_time: false
+draft: false 
+output: html_document
+categories:
+  - R
+  - workshop
+featured: yes
+---
+
+
+
+<p><strong>Workshop info</strong></p>
+<ul>
+<li><strong>When:</strong> October 1st, 9:00am (PST, Vancouver, BC)</li>
+<li><strong>Where:</strong> Northeastern University</li>
+<li><strong>Requirements:</strong> Participants must have a laptop or desktop with a Mac, Linux, or Windows operating system. (Tablets and Chromebooks are not advised.) Please have the latest version of <a href="https://www.r-project.org/">R</a> and <a href="https://rstudio.com/products/rstudio/download/#download">RStudio</a> downloaded and running (free!).</li>
+<li><strong>Code of conduct:</strong> Everyone participating in the Vancouver DataJam activities are required to conform to the <a href="https://vancouverdatajam.ca/code-of-conduct">Code of Conduct</a></li>
+</ul>
+<hr />
+<div id="what-are-r-and-rstudio" class="section level2">
+<h2>What are R and RStudio?</h2>
+<p>For this workshop, we will be using R via RStudio.</p>
+<p>You can think of R like a car’s engine, while RStudio is like a car’s dashboard.</p>
+<ul>
+<li>R is the programming language that runs computations</li>
+<li>RStudio is an integrated development environment (IDE) that provides an interface by adding convenient features and tools.</li>
+</ul>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/R_vs_RStudio_v1.png" alt="" />
+<p class="caption">An analogy of the difference between R and RStudio. Left is a car engine to illustrate R, and on the right is car’s dashboard to illustrate RStudio.</p>
+</div>
+<p>So what this means is that, just as we don’t drive a car by interacting directly
+with the engine but rather by interacting with the car’s dashboard, we won’t be
+using R directly.</p>
+<p>Instead, we will be using the RStudio’s interface.</p>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/R_vs_RStudio_v2.png" alt="" />
+<p class="caption">Which iron to open. Don’t open the R app, and open the RStudio app instead!</p>
+</div>
+<p>After you open RStudio, you should see the following 3 panels:</p>
+<ul>
+<li>console,</li>
+<li>files,</li>
+<li>and environment.</li>
+</ul>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/RStudio_panels.png" alt="" />
+<p class="caption">Screenshot of RStudio. The left panel is a large window for the console. The right panel is split horizontally, top showing the environment panel and bottom showing the files panel.</p>
+</div>
+<hr />
+</div>
+<div id="what-are-r-packages" class="section level2">
+<h2>What are R packages?</h2>
+<p>R packages extend the functionality of R by providing additional functions, data
+and documentation.</p>
+<ul>
+<li>Think of R packages like apps that you can download onto a mobile phone</li>
+<li>You can get R packages from CRAN</li>
+<li>Or bioinformatics related R packages from bioconductor</li>
+</ul>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/packages.png" alt="" />
+<p class="caption">Analogy for the difference between R and R packages. Left: a picture of a new phone as R. Right: a picture of apple store / google play apps to represent R packages.</p>
+</div>
+<p>So let’s continue with this analogy: Let’s say you’ve purchased a new phone
+(brand new R/RStudio install) and you want to take a photo (do some data
+analysis) and share it with your friends and family. So you need to:</p>
+<ol style="list-style-type: decimal">
+<li>Install the app.</li>
+<li>Open the app.</li>
+</ol>
+<p>This process is very similar when you are using an R package. You need to:</p>
+<ol style="list-style-type: decimal">
+<li>Install the pacakge: Most packages are not installed by default when you
+install R and RStudio. You will only need to install it again when you need to
+update it to a newer version.</li>
+</ol>
+<pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>“Load” or open the package: Packages are not loaded by default when you start
+RStudio on your computer. So you need to “load” each package you want to use
+every time you start RStudio.</li>
+</ol>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>See <a href="https://moderndive.com/1-getting-started.html">ModernDive Chapter 1</a> for
+further reading.</p>
+<hr />
+</div>
+<div id="workspace" class="section level2">
+<h2>Workspace</h2>
+<p>One day you will need to quit R, go do something else and return to your
+analysis later.</p>
+<p>One day you will be running multiple analyses in R and you want to keep them
+separate.</p>
+<p>One day you will need to bring data from the outside world into R and present
+results and figures from R back out to the world.</p>
+<p>So how do you know which parts of your analysis is “real” and where does your
+analysis “live”?</p>
+</div>
+<div id="where-am-i-working-directory" class="section level2">
+<h2>Where am I? (Working Directory)</h2>
+<p>Working directory is where R will look, by default, for files you ask it to load
+or to save.</p>
+<p>You can explicitly check your working directory with:</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>[1] &quot;/Users/yukatakemon/Desktop/my_project&quot;</code></pre>
+<p>It is also displayed at the top of the RStudio console</p>
+</div>
+<div id="what-if-i-dont-like-where-my-current-working-directory-is" class="section level2">
+<h2>What if I don’t like where my current working directory is?</h2>
+<p><img src="/workshop/VancouverDataJam2022-Lesson1/No_setwd_0.png" alt="An illustration by Allison Horst showing ways to find your path" />
+Illustration by <a href="https://github.com/allisonhorst">Allison Horst</a></p>
+<p>DO NOT USE <code>setwd</code> unless you want Jenny Bryan to set your computer on fire!</p>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/No_setwd_1.png" alt="" />
+<p class="caption">Twitter post from Jenny Bryan: “Blog post elaborating on my advice to avoid setwd() and rmd(list=ls()) at the top of an rstats script</p>
+</div>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/No_setwd_2.png" alt="" />
+<p class="caption">If the first line of your script is setwd() Jenny Bryan will come into your office and set your computer on fire</p>
+</div>
+<p>So what’s wrong with:</p>
+<pre class="r"><code>setwd(&quot;~/YukaTakemon/my_awesome_project/sub_project_1/data&quot;)
+read_data(&quot;data_shared_with_everyone.csv&quot;)</code></pre>
+<p>The chance of the <code>setwd()</code> command having the desired effect - making the file paths work - for anyone besides its author is 0%. It might not even work for the author a year or two from now. So essentially your data analysis project is not self-contained and portable, which makes recreating the plot impossible.</p>
+<p>Read more here: <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script/" class="uri">https://www.tidyverse.org/articles/2017/12/workflow-vs-script/</a></p>
+</div>
+<div id="suggestions-on-how-to-organize-projects" class="section level2">
+<h2>Suggestions on how to organize projects:</h2>
+<p>Typically, I organize each data analysis into a project using RStudio Project (We’ll make one shortly). In a project directory I tend to have a directory each for:</p>
+<ul>
+<li>data/</li>
+<li>results/</li>
+<li>scripts/</li>
+<li>.Rproj</li>
+</ul>
+<p>Then when I need to share my analysis or data, I can share the entire project over. This will maintian the structure of your project and data will not be lost.</p>
+<hr />
+</div>
+<div id="exercise-create-an-r-project-5-mins" class="section level2">
+<h2><span style="color: darkorange;">Exercise: Create an R project</span> (5 mins)</h2>
+<ol style="list-style-type: decimal">
+<li>Create a .Rproj file together called <code>DataJam_Intro2R</code> on your desktop.</li>
+<li>Create the suggest directories above in your project folder (<code>data/</code>, <code>results/</code>, <code>scripts/</code>)</li>
+<li>Install the following packages from CRAN using the code below (this may take a few mins)</li>
+</ol>
+<pre class="r"><code>install.packages(c(&quot;tidyverse&quot;, &quot;knitr&quot;, &quot;here&quot;, &quot;gapminder&quot;))</code></pre>
+<hr />
+</div>
+<div id="exercise-create-an-r-markdown-15-mins" class="section level2">
+<h2><span style="color: darkorange;">Exercise: Create an R markdown</span> (15 mins)</h2>
+<p>Within R Studio, click File → New File → R Markdown and you’ll get a dialog box like below. You can stick with the default (HTML output), but give it a title.</p>
+<div class="figure">
+<img src="/workshop/VancouverDataJam2022-Lesson1/New_rmd.png" alt="" />
+<p class="caption">New Rmd pop-up window</p>
+</div>
+</div>
+<div id="basic-components-of-r-markdown" class="section level2">
+<h2>Basic components of R markdown</h2>
+<p>The initial chunk of text contains instructions for R: you give the thing a title, author, and date, and tell it that you’re going to want to produce html output (in other words, a web page).</p>
+<pre><code>---
+title: &quot;My first R Markdown document&quot;
+author: &quot;Yuka Takemon&quot;
+date: &quot;September 18, 2021&quot;
+output: html_document
+---</code></pre>
+<p>You can delete any of those fields if you don’t want them included. The double-quotes aren’t strictly necessary in this case. They’re mostly needed if you want to include a colon in the title.</p>
+<p>RStudio creates the document with some example text to get you started. Note below that there are chunks like</p>
+<pre>
+&#96;&#96;&#96;{r}
+summary(cars)
+&#96;&#96;&#96;
+</pre>
+<p>These are chunks of R code that will be executed by knitr and replaced by their results. We will see this in action later.</p>
+</div>
+<div id="markdown-syntax" class="section level2">
+<h2>Markdown syntax</h2>
+<p>Markdown is a system for writing web pages by marking up the text much as you would in an email rather than writing html code. The marked-up text gets <em>converted</em> to html, replacing the marks with the proper html code.</p>
+<p>For now, let’s delete all of the stuff that’s there and write a bit of markdown.</p>
+<p>You make things <strong>bold</strong> using two asterisks, like this: <code>**bold**</code>, and you make things <em>italics</em> by using underscores, like this: <code>_italics_</code>.</p>
+<p>You can make a bulleted list by writing a list with hyphens or asterisks, like this:</p>
+<pre><code>* bold with double-asterisks
+* italics with underscores
+* code-type font with backticks</code></pre>
+<p>or like this:</p>
+<pre><code>- bold with double-asterisks
+- italics with underscores
+- code-type font with backticks</code></pre>
+<p>Each will appear as:</p>
+<ul>
+<li>bold with double-asterisks</li>
+<li>italics with underscores</li>
+<li>code-type font with backticks</li>
+</ul>
+<p>(I prefer hyphens over asterisks, myself.)</p>
+<p>You can make a numbered list by just using numbers. You can use the
+same number over and over if you want:</p>
+<pre><code>1. bold with double-asterisks
+1. italics with underscores
+1. code-type font with backticks</code></pre>
+<p>This will appear as:</p>
+<ol style="list-style-type: decimal">
+<li>bold with double-asterisks</li>
+<li>italics with underscores</li>
+<li>code-type font with backticks</li>
+</ol>
+<p>You can make section headers of different sizes by initiating a line
+with some number of <code>#</code> symbols:</p>
+<pre><code># Title
+## Main section
+### Sub-section
+#### Sub-sub section</code></pre>
+<p>You <em>compile</em> the R Markdown document to an html webpage by clicking the “Knit HTML” in the upper-left (icon on yarn with needles).</p>
+<p>We will use Rmarkdown as our main note taking method for this workshop. More extensive reading can be found <a href="https://ytakemon.github.io/2019-10-22-R-BCCRC/15-knitr-markdown/">here</a></p>
+</div>

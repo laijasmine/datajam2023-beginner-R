@@ -1,0 +1,449 @@
+---
+title: "VDJ 2022: 3. Visualizing data with ggplot2"
+subtitle: "Publication quality graphics"
+author: "Yuka Takemon"
+date: "2022-09-18"
+show_post_time: false
+draft: false 
+output: md_document
+categories:
+  - R
+  - workshop
+featured: yes
+---
+
+
+
+<hr />
+<p><strong>Workshop info</strong></p>
+<ul>
+<li><strong>When:</strong> October 1st, 9am (PST, Vancouver, BC)</li>
+<li><strong>Where:</strong> Northeastern University</li>
+<li><strong>Requirements:</strong> Participants must have a laptop or desktop with a Mac, Linux, or Windows operating system. (Tablets and Chromebooks are not advised.) Please have the latest version of <a href="https://www.r-project.org/">R</a> and <a href="https://rstudio.com/products/rstudio/download/#download">RStudio</a> downloaded and running (free!).</li>
+<li><strong>Code of conduct:</strong> Everyone participating in the Vancouver DataJam activities are required to conform to the <a href="https://drive.google.com/file/d/1AweOzN_CrcXbn0theuy7PovpRgLfmrBI/view?usp=sharing">Code of Conduct</a></li>
+</ul>
+<hr />
+<blockquote>
+<p>These materials have been taken from the Software Carpentry: R Novice Lesson.
+You can find the original materials
+<a href="https://github.com/swcarpentry/r-novice-gapminder">here</a>.</p>
+</blockquote>
+<p><br></p>
+<p>Plotting our data is one of the best ways to quickly explore it and the various
+relationships between variables.</p>
+<p>There are three main plotting systems in R, the <a href="http://www.statmethods.net/graphs/index.html">base plotting
+system</a>, the
+<a href="http://www.statmethods.net/advgraphs/trellis.html">lattice</a> package, and the
+<a href="http://www.statmethods.net/advgraphs/ggplot2.html">ggplot2</a> package.</p>
+<p>Today we’ll be learning about the ggplot2 package, because it is the most
+effective for creating publication quality graphics.
+ggplot2 is built on the grammar of graphics, the idea that any plot can be
+expressed from the same set of components: a <strong>data</strong> set, a <strong>coordinate
+system</strong>, and a set of <strong>geoms</strong>, the visual representation of data points.</p>
+<p>The key to understanding ggplot2 is thinking about a figure in layers. This idea
+may be familiar to you if you have used image editing programs like Photoshop,
+Illustrator, or Inkscape.</p>
+<p><img src = "https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/ggplot2_masterpiece.png"/></p>
+<p>First, let’s make sure everything’s loaded:</p>
+<pre class="r"><code># Download the packages
+# install.packages(c(&quot;tidyverse&quot;, &quot;gapminder&quot;))
+
+# Load the packages for use
+library(tidyverse)
+library(gapminder)</code></pre>
+<p><br></p>
+<div id="simple-ggplot" class="section level2">
+<h2>Simple ggplot</h2>
+<p>Let’s start off with an example:</p>
+<pre class="r"><code>ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><br></p>
+<p>So the first thing we do is call the <code>ggplot</code> function. This function lets R
+know that we’re creating a new plot, and any of the arguments we give the
+<code>ggplot</code> function are the <em>global</em> options for the plot: they apply to <strong>all</strong>
+layers on the plot.</p>
+<p>We’ve passed in two arguments to <code>ggplot</code>. First, we tell <code>ggplot</code> what data we
+want to show on our figure, in this example the gapminder data we read in
+earlier. For the second argument we passed in the <code>aes</code> function, which
+tells <code>ggplot</code> how variables in the <strong>data</strong> map to <em>aesthetic</em> properties of
+the figure, in this case the <strong>x</strong> and <strong>y</strong> locations. Here we told <code>ggplot</code> we
+want to plot the “gdpPercap” column of the gapminder data frame on the x-axis, and
+the “lifeExp” column on the y-axis.</p>
+<p>By itself, the call to <code>ggplot</code> isn’t enough to draw a figure:</p>
+<pre class="r"><code>ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp))</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><br></p>
+<p>We need to tell <code>ggplot</code> how we want to visually represent the data, which we
+do by adding a new <strong>geom</strong> layer. In our example, we used <code>geom_point</code>, which
+tells <code>ggplot</code> we want to visually represent the relationship between <strong>x</strong> and
+<strong>y</strong> as a scatterplot of points:</p>
+<pre class="r"><code>ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><br></p>
+<div id="challenge-1" class="section level3">
+<h3>Challenge 1</h3>
+<p>Modify the example so that the figure shows how life expectancy has
+changed over time:</p>
+<pre class="r"><code># Previous example:
+ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()</code></pre>
+<p>Hint: the gapminder dataset has a column called “year”, which should appear
+on the x-axis.</p>
+</div>
+<div id="solution-to-challenge-1" class="section level3">
+<h3>Solution to Challenge 1</h3>
+<p>Here is one possible solution:</p>
+<pre class="r"><code>ggplot(data = gapminder, aes(x = year, y = lifeExp)) +
+  geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><br></p>
+</div>
+<div id="challenge-2" class="section level3">
+<h3>Challenge 2</h3>
+<p>In the previous examples and challenge we’ve used the <code>aes</code> function to tell
+the scatterplot <strong>geom</strong> about the <strong>x</strong> and <strong>y</strong> locations of each point.
+Another <em>aesthetic</em> property we can modify is the point <em>colour</em>. Modify the
+code from the previous challenge to <strong>colour</strong> the points by the “continent”
+column. What trends do you see in the data? Are they what you expected?</p>
+</div>
+<div id="solution-to-challenge-2" class="section level3">
+<h3>Solution to Challenge 2</h3>
+<pre class="r"><code>ggplot(data = gapminder, aes(x = year, y = lifeExp, colour = continent)) +
+ geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="layers" class="section level2">
+<h2>Layers</h2>
+<p>Using a scatterplot probably isn’t the best for visualizing change over time.
+Instead, let’s tell <code>ggplot</code> to visualize the data as a line plot. Here we’ll
+also shorten our code by omitting some of the declarations (e.g. x = year). By
+default, the first object passed to <code>ggplot()</code> is assumed to be the <code>data</code>
+argument. Similarly, the first two column names of <code>aes()</code> are assumed to be the
+x and y arguments.</p>
+<pre class="r"><code>ggplot(gapminder, aes(year, lifeExp, by = country, colour = continent)) +
+  geom_line()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><br></p>
+<p>Instead of adding a <code>geom_point</code> layer, we’ve added a <code>geom_line</code> layer. We’ve
+added the <strong>by</strong> <em>aesthetic</em>, which tells <code>ggplot</code> to draw a line for each
+country.</p>
+<p>But what if we want to visualize both lines and points on the plot? We can
+simply add another layer to the plot:</p>
+<pre class="r"><code>ggplot(gapminder, aes(year, lifeExp, by = country, colour = continent)) +
+  geom_line() +
+  geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><br></p>
+<p>It’s important to note that each layer is drawn on top of the previous layer. In
+this example, the points have been drawn <em>on top of</em> the lines. Here’s a
+demonstration:</p>
+<pre class="r"><code>ggplot(gapminder, aes(year, lifeExp, by = country)) +
+  geom_line(aes(colour = continent)) +
+  geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><br></p>
+<p>In this example, the <em>aesthetic</em> mapping of <strong>colour</strong> has been moved from the
+global plot options in <code>ggplot</code> to the <code>geom_line</code> layer so it no longer applies
+to the points. Now we can clearly see that the points are drawn on top of the
+lines.</p>
+<div id="tip-setting-an-aesthetic-to-a-value-instead-of-a-mapping" class="section level3">
+<h3>Tip: Setting an aesthetic to a value instead of a mapping</h3>
+<p>So far, we’ve seen how to use an aesthetic (such as <strong>colour</strong>) as a <em>mapping</em> to
+a variable in the data. For example, when we use <code>geom_line(aes(colour = continent))</code>, ggplot will give a different colour to each continent. But what if
+we want to change the colour of all lines to blue? You may think that
+<code>geom_line(aes(colour = "blue"))</code> should work, but it doesn’t. Since we don’t
+want to create a mapping to a specific variable, we simply move the colour
+specification outside of the <code>aes()</code> function, like this: <code>geom_line(colour = "blue")</code>.</p>
+<p><br></p>
+</div>
+<div id="challenge-3" class="section level3">
+<h3>Challenge 3</h3>
+<p>Switch the order of the point and line layers from the previous example. What
+happened?</p>
+</div>
+<div id="solution-to-challenge-3" class="section level3">
+<h3>Solution to Challenge 3</h3>
+<p>Switch the order of the point and line layers from the previous example. What
+happened?</p>
+<pre class="r"><code>ggplot(gapminder, aes(year, lifeExp, by = country)) +
+  geom_point() +
+  geom_line(aes(colour = continent))</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><br></p>
+<p>The lines now get drawn over the points!</p>
+<p><br></p>
+</div>
+</div>
+<div id="transformations-and-statistics" class="section level2">
+<h2>Transformations and statistics</h2>
+<p>ggplot2 also makes it easy to overlay statistical models over the data. To
+demonstrate we’ll go back to our first example:</p>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, lifeExp, colour = continent)) +
+  geom_point()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><br></p>
+<p>Currently it’s hard to see the relationship between the points due to some strong
+outliers in GDP per capita. We can change the scale of units on the x axis using
+the <em>scale</em> functions. These control the mapping between the data values and
+visual values of an aesthetic. We can also modify the transparency of the
+points, using the <em>alpha</em> function, which is especially helpful when you have
+a large amount of data which is very clustered.</p>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><br></p>
+<p>The <code>log10</code> function applied a transformation to the values of the gdpPercap
+column before rendering them on the plot, so that each multiple of 10 now only
+corresponds to an increase in 1 on the transformed scale, e.g. a GDP per capita
+of 1,000 is now 3 on the y axis, a value of 10,000 corresponds to 4 on the y
+axis and so on. This makes it easier to visualize the spread of data on the
+x-axis.</p>
+<div id="reminder-setting-an-aesthetic-to-a-value-instead-of-a-mapping" class="section level3">
+<h3>Reminder: Setting an aesthetic to a value instead of a mapping</h3>
+<p>Notice that we used <code>geom_point(alpha = 0.5)</code>. As the previous tip mentioned, using a setting outside of the <code>aes()</code> function will cause this value to be used for all points, which is what we want in this case. But just like any other aesthetic setting, <em>alpha</em> can also be mapped to a variable in the data. For example, we can give a different transparency to each continent with <code>geom_point(aes(alpha = continent))</code>.</p>
+<p><br></p>
+<p>We can fit a simple relationship to the data by adding another layer,
+<code>geom_smooth</code>:</p>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point() +
+  scale_x_log10() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><br></p>
+<p>We can make the line thicker by <em>setting</em> the <strong>size</strong> aesthetic in the
+<code>geom_smooth</code> layer:</p>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point() +
+  scale_x_log10() +
+  geom_smooth(method = &quot;lm&quot;, size = 1.5)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><br></p>
+<p>There are two ways an <em>aesthetic</em> can be specified. Here we <em>set</em> the <strong>size</strong>
+aesthetic by passing it as an argument to <code>geom_smooth</code>. Previously in the
+lesson we’ve used the <code>aes</code> function to define a <em>mapping</em> between data
+variables and their visual representation.</p>
+</div>
+<div id="challenge-4a" class="section level3">
+<h3>Challenge 4a</h3>
+<p>Modify the colour and size of the points on the point layer in the previous
+example. Hint: do not use the <code>aes</code> function.</p>
+</div>
+<div id="solution-to-challenge-4a" class="section level3">
+<h3>Solution to challenge 4a</h3>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point(size = 3, colour = &quot;orange&quot;) +
+  scale_x_log10() +
+  geom_smooth(method = &quot;lm&quot;, size = 1.5)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><br></p>
+</div>
+<div id="challenge-4b" class="section level3">
+<h3>Challenge 4b</h3>
+<p>Modify your solution to Challenge 4a so that the
+points are now a different shape and are coloured by continent with new
+trendlines. Hint: The colour argument can be used inside the aesthetic.</p>
+</div>
+<div id="solution-to-challenge-4b" class="section level3">
+<h3>Solution to Challenge 4b</h3>
+<p>Modify Challenge 4 so that the points are now a different shape and are
+coloured by continent with new trendlines.
+Hint: The colour argument can be used inside the aesthetic.</p>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, lifeExp, colour = continent)) +
+  geom_point(size = 2, alpha = 0.5) +
+  scale_x_log10() +
+  geom_smooth(method = &quot;lm&quot;, size = 1.5)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="multi-panel-figures" class="section level2">
+<h2>Multi-panel figures</h2>
+<p>Earlier we visualized the change in life expectancy over time across all
+countries in one plot. Alternatively, we can split this out over multiple panels
+by adding a layer of <strong>facet</strong> panels. Here we will first make a smaller version
+of the data to make it easier to work with. The <code>%in%</code> operator just means that
+country must be equal to one of the four specified countries.</p>
+<pre class="r"><code>gapminder_small &lt;- gapminder %&gt;%
+  filter(country %in% c(&quot;Canada&quot;, &quot;United States&quot;, &quot;France&quot;, &quot;Australia&quot;))
+
+ggplot(gapminder_small, aes(year, lifeExp, colour = continent)) +
+  geom_line() +
+  facet_wrap(~country)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><br></p>
+<p>The <code>facet_wrap</code> layer took a “formula” as its argument, denoted by the tilde
+(<code>~</code>). This tells R to draw a panel for each unique value in the country column
+of the <code>gapminder_small</code> data.</p>
+<p><br></p>
+</div>
+<div id="modifying-text" class="section level2">
+<h2>Modifying text</h2>
+<p>To clean this figure up for a publication we need to change some of the text
+elements. The x-axis is too cluttered, and the y axis should read “Life
+expectancy”, rather than the column name in the data frame.</p>
+<p>We can do this by adding a couple of different layers. The <strong>theme</strong> layer
+controls the axis text, and overall text size. Labels for the axes, plot title
+and any legend can be set using the <code>labs</code> function. Legend titles are set using
+the same names we used in the <code>aes</code> specification. Thus below the colour legend
+title is set using <code>colour = "Continent"</code>, while the title of a fill legend
+would be set using <code>fill = "MyTitle"</code>.</p>
+<pre class="r"><code>gapminder_small &lt;- gapminder %&gt;%
+  filter(country %in% c(&quot;Canada&quot;, &quot;United States&quot;, &quot;France&quot;, &quot;Australia&quot;))
+
+ggplot(gapminder_small, aes(year, lifeExp, colour = continent)) +
+  geom_line() +
+  facet_wrap(~country) +
+  labs(x = &quot;Year&quot;, y = &quot;Life expectancy&quot;, title = &quot;Figure 1&quot;, colour = &quot;Continent&quot;) +
+  theme_bw() +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><br></p>
+</div>
+<div id="exporting-the-plot" class="section level2">
+<h2>Exporting the plot</h2>
+<p>The <code>ggsave()</code> function allows you to export a plot created with ggplot. You can
+specify the dimension and resolution of your plot by adjusting the appropriate
+arguments (<code>width</code>, <code>height</code> and <code>dpi</code>) to create high quality graphics for
+publication. In order to save the plot from above, we first assign it to a
+variable <code>lifeExp_plot</code>, then tell <code>ggsave</code> to save that plot in <code>png</code> format to
+a directory called <code>results</code>. (Make sure you have a <code>results/</code> folder in your
+working directory.)</p>
+<pre class="r"><code>lifeExp_plot &lt;- ggplot(gapminder_small, aes(year, lifeExp, colour = continent)) +
+  geom_line() +
+  facet_wrap(~country) +
+  labs(x = &quot;Year&quot;, y = &quot;Life expectancy&quot;, title = &quot;Figure 1&quot;, colour = &quot;Continent&quot;) +
+  theme_bw() +
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+
+ggsave(plot = lifeExp_plot, filename = &quot;lifeExp.png&quot;, units = &quot;cm&quot;, width = 12, height = 10, dpi = 300)</code></pre>
+<p><br></p>
+<p>There are two nice things about <code>ggsave</code>. First, it defaults to the last plot,
+so if you omit the <code>plot</code> argument it will automatically save the last plot you
+created with <code>ggplot</code>. Secondly, it tries to determine the format you want to
+save your plot in from the file extension you provide for the filename (for
+example <code>.png</code> or <code>.pdf</code>). If you need to, you can specify the format explicitly
+in the <code>device</code> argument.</p>
+<p><br></p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>This is a taste of what you can do with ggplot2. RStudio provides a really
+useful <a href="http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">cheat sheet</a>
+of the different layers available, and more extensive documentation is available
+on the <a href="http://docs.ggplot2.org/current/">ggplot2 website</a>. Finally, if you have
+no idea how to change something, a quick Google search will usually send you to
+a relevant question and answer on Stack Overflow with reusable code to modify!</p>
+<p><br></p>
+<div id="challenge-5" class="section level3">
+<h3>Challenge 5</h3>
+<p>Create a density plot of GDP per capita, filled by continent.</p>
+<p>Advanced:</p>
+<ul>
+<li>Transform the x axis to better visualise the data spread</li>
+<li>Add a facet layer to panel the density plots by year</li>
+<li>Make the y-axis range independent for each facet (year)</li>
+</ul>
+</div>
+<div id="solution-to-challenge-5" class="section level3">
+<h3>Solution to Challenge 5</h3>
+<pre class="r"><code>ggplot(gapminder, aes(gdpPercap, fill = continent)) +
+  geom_density(alpha = 0.6) +
+  facet_wrap(~year, scales = &quot;free_y&quot;) +
+  scale_x_log10()</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="making-heatmaps-with-corrplot" class="section level2">
+<h2>Making Heatmaps with <code>corrplot</code></h2>
+<p>While there is a lot that ggplot2 can do, one limitation is in the construction
+of heatmaps, another common type of visualiztion in many disciplines of science.
+Let’s start by installing, then loading it into RStudio.</p>
+<pre class="r"><code># install.packages(&quot;corrplot&quot;)
+library(corrplot)</code></pre>
+<p><br></p>
+<p>Great! Now we’ll use the <code>mtcars</code> data set included in R to try out different heatmaps.</p>
+<pre class="r"><code># Quick look at mtcars.
+head(mtcars)</code></pre>
+<pre><code>                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<pre class="r"><code># Pearson correlation is default. See ?cor for other available methods
+cor_mtcars &lt;- cor(mtcars) 
+head(cor_mtcars)</code></pre>
+<pre><code>            mpg        cyl       disp         hp       drat         wt
+mpg   1.0000000 -0.8521620 -0.8475514 -0.7761684  0.6811719 -0.8676594
+cyl  -0.8521620  1.0000000  0.9020329  0.8324475 -0.6999381  0.7824958
+disp -0.8475514  0.9020329  1.0000000  0.7909486 -0.7102139  0.8879799
+hp   -0.7761684  0.8324475  0.7909486  1.0000000 -0.4487591  0.6587479
+drat  0.6811719 -0.6999381 -0.7102139 -0.4487591  1.0000000 -0.7124406
+wt   -0.8676594  0.7824958  0.8879799  0.6587479 -0.7124406  1.0000000
+            qsec         vs         am       gear       carb
+mpg   0.41868403  0.6640389  0.5998324  0.4802848 -0.5509251
+cyl  -0.59124207 -0.8108118 -0.5226070 -0.4926866  0.5269883
+disp -0.43369788 -0.7104159 -0.5912270 -0.5555692  0.3949769
+hp   -0.70822339 -0.7230967 -0.2432043 -0.1257043  0.7498125
+drat  0.09120476  0.4402785  0.7127111  0.6996101 -0.0907898
+wt   -0.17471588 -0.5549157 -0.6924953 -0.5832870  0.4276059</code></pre>
+<pre class="r"><code># Plot heatmap
+corrplot(cor_mtcars, method = &quot;circle&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/quick_heatmap-1.png" width="672" /></p>
+<p><br></p>
+<p>In this heat map both size and colour corresponds to the Pearson coefficient.
+There are also other correlative measures we can explore:</p>
+<pre class="r"><code>corrplot(cor_mtcars, method = &quot;square&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/square_heatmap-1.png" width="672" /></p>
+<p><br></p>
+<pre class="r"><code>corrplot(cor_mtcars, method = &quot;number&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/num_heatmap-1.png" width="672" /></p>
+<p><br></p>
+<p>Heat maps are redundant, with the top-right and bottom-left portions of the plot
+being the same. We can eliminate this by taking a slice of the map:</p>
+<pre class="r"><code>corrplot(cor_mtcars, type = &quot;upper&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/heatmap_slice-1.png" width="672" /></p>
+<pre class="r"><code>corrplot(cor_mtcars, type = &quot;lower&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/heatmap_slice-2.png" width="672" /></p>
+<p><br></p>
+<p>We can also mix together shapes and numbers (or any two combinations of methods)
+to increase the amount of information we can represent in a heat map.</p>
+<pre class="r"><code>corrplot.mixed(cor_mtcars, lower = &quot;number&quot;, upper = &quot;circle&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/mixing_heatmaps-1.png" width="672" /></p>
+<p><br></p>
+<p>The correlation matrix can be reordered according to the correlation
+coefficient. This is important to identify the hidden structure and pattern in
+the matrix. There are multiple methods available for clustering, but we will
+only use the k-means hierarchical clustering method here:</p>
+<pre class="r"><code>corrplot(cor_mtcars, order = &quot;hclust&quot;)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/heatmap_hclust-1.png" width="672" /></p>
+<p><br></p>
+<p>We can also direct <code>corrplot</code> to identify the two distinct groups we can see by
+eye.</p>
+<pre class="r"><code>corrplot(cor_mtcars, order = &quot;hclust&quot;, addrect = 2)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/heatmap_hclust_group2-1.png" width="672" /></p>
+<p><br></p>
+<p>And also groups that might not be immediately clear to us.</p>
+<pre class="r"><code>corrplot(cor_mtcars, order = &quot;hclust&quot;, addrect = 3)</code></pre>
+<p><img src="/workshop/VancouverDataJam2022-Lesson3/Index_files/figure-html/heatmap_hclust_group3-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="final-thoughts" class="section level2">
+<h2>Final thoughts…</h2>
+<div id="our-hopes-for-participants" class="section level3">
+<h3>Our hopes for participants</h3>
+<p><img src = "https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/r_first_then.png"/></p>
+</div>
+<div id="good-luck-on-your-r-journey" class="section level3">
+<h3>Good luck on your R journey!</h3>
+<p><img src = "https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/monster_support.jpg"/></p>
+<p>Illustrations by <a href="https://github.com/allisonhorst">Allison Horst</a></p>
+</div>
+</div>
