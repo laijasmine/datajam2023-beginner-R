@@ -36,7 +36,9 @@ using R directly.
 
 Instead, we will be using the RStudio's interface.
 
-![Which iron to open. Don't open the R app, and open the RStudio app instead!](/workshop/VancouverDataJam2022-Lesson1/R_vs_RStudio_v2.png)
+Today we will be Posit Cloud to avoid some installation issues but if you were to open the application on your computer make sure to have R and Rstudio installed.
+
+![Which icon to open. Don't open the R app, and open the RStudio app instead!](/workshop/VancouverDataJam2022-Lesson1/R_vs_RStudio_v2.png)
 
 After you open RStudio, you should see the following 3 panels:
 
@@ -67,10 +69,9 @@ analysis) and share it with your friends and family. So you need to:
 
 This process is very similar when you are using an R package. You need to:
 
-1. Install the pacakge: Most packages are not installed by default when you
+1. Install the package: Most packages are not installed by default when you
 install R and RStudio. You will only need to install it again when you need to
-update it to a newer version.
-
+update it to a newer version. 
 
 ```r
 install.packages("tidyverse")

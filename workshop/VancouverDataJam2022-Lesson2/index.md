@@ -39,8 +39,7 @@ manipulate data frames. These eight functions are:
 * `filter()`  --  Choose rows (samples or observations) from our data frame
 * `mutate()`  --  Create new columns
 * `group_by()`  --  Group rows based on a particular value within that column
-* `summarize()`  --  Perform some function on the grouped data
-* `left_join()` -- Combine two tables based on a shared column
+* `summarise()`  --  Perform some function on the grouped data
 
 Here we go!
 
@@ -412,85 +411,6 @@ summarise(LifeExp_ang = max(lifeExp),
 >**Extra:** `group_by()` can be combined with `tally()`to count all the rows corresponding to that group.
 >```
 >gapminder %>% group_by(continent, year) %>% tally()
->```
-
-## Combining tables with _join()
-
-Let's say you have two data frames that you want to combine. Both data frames contain a column with unique identifiers, but each data frame may contain different columns of information. That's where join functions come in!
-
-There are a variety of ways data can be joined. Here are a few common ones you may come across:
-
-![](/workshop/VancouverDataJam2022-Lesson2/Common_joins-01.png)
-
-### left_join()
-
-The `left_join()` function takes one data frame on the "left" and using a specified column, looks for matching entries on the "right". Note that the output data frame will contain all rows
-and columns from the left dataframe, as well as all columns from right, but only matching rows from.
-
-![](/workshop/VancouverDataJam2022-Lesson2/leftjoin_image.png)
-
-First let's load some simple example data to play with:
-
-```r
-band_members
-```
-
-```
-# A tibble: 3 × 2
-  name  band   
-  <chr> <chr>  
-1 Mick  Stones 
-2 John  Beatles
-3 Paul  Beatles
-```
-
-```r
-band_instruments
-```
-
-```
-# A tibble: 3 × 2
-  name  plays 
-  <chr> <chr> 
-1 John  guitar
-2 Paul  bass  
-3 Keith guitar
-```
-Now we can use `left_join()` to combine the two tables, based on matching values in a specified column. The syntax is as follows:
-
-
-```r
-left_join(band_members, band_instruments)
-```
-
-```
-# A tibble: 3 × 3
-  name  band    plays 
-  <chr> <chr>   <chr> 
-1 Mick  Stones  <NA>  
-2 John  Beatles guitar
-3 Paul  Beatles bass  
-```
-### right_join()
-
-`right_join()` works exactly the same with and you can also specify which column you wish to join by to get the same results
-
-
-```r
-right_join(band_members, band_instruments, by = "name")
-```
-
-```
-# A tibble: 3 × 3
-  name  band    plays 
-  <chr> <chr>   <chr> 
-1 John  Beatles guitar
-2 Paul  Beatles bass  
-3 Keith <NA>    guitar
-```
->**Extra:** Note that you can have different column names in each of your data frames, and still join the tables together. The syntax for this is:
->```
->left_join(x, y, by = c("columnX" = "columnY"))
 >```
 
 ***
